@@ -42,7 +42,7 @@ while running:
             # render firework here
             print(pos)
             pArray = [pos[0], pos[1]]
-            fireworks.append(firework.firework(10, [640, 720], [0, -100], pArray, (255, 0, 0), FIREWORK_COLORS, 10))
+            fireworks.append(firework.firework(10, [pos[0], 720], [0, -100], pArray, (255, 0, 0), FIREWORK_COLORS, 10))
             
             
     # RENDER YOUR GAME HERE
