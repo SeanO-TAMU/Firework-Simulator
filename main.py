@@ -3,6 +3,22 @@
 # to generate requirements.txt = pip freeze > requirements.txt
 import pygame
 import particle
+import firework
+
+FIREWORK_COLORS = [
+    (255, 0, 0),       # bright red
+    (255, 80, 0),      # orange
+    (255, 150, 0),     # amber
+    (255, 255, 0),     # yellow
+    (200, 255, 0),     # lime
+    (0, 255, 0),       # green
+    (0, 255, 150),     # aqua green
+    (0, 200, 255),     # cyan
+    (0, 100, 255),     # bright blue
+    (100, 0, 255),     # violet
+    (200, 0, 255),     # magenta
+    (255, 0, 150),     # pink
+]
 
 # pygame setup
 pygame.init()
@@ -26,11 +42,7 @@ while running:
             # render firework here
             print(pos)
             pArray = [pos[0], pos[1]]
-            particles.append(particle.particle(1, pArray, [10, 0], (255, 0, 0), 8))
-            particles.append(particle.particle(1, pArray, [0, 10], (255, 255, 0), 8))
-            particles.append(particle.particle(1, pArray, [5, 5], (255, 0, 255), 8))
-            particles.append(particle.particle(1, pArray, [-10, 0], (0, 0, 255), 8))
-            particles.append(particle.particle(1, pArray, [-10, 5], (0, 255, 0), 8))
+            fireworks.append(firework.firework(10, [640, 720], [0, -100], pArray, (255, 0, 0), FIREWORK_COLORS, 10))
             
             
     # RENDER YOUR GAME HERE
@@ -41,11 +53,12 @@ while running:
             particles.pop()
             continue
         
-        particles[i].step(dt)
+        particles[i].step(dt) # also need to pass in the wind force
         particles[i].draw(screen)
         i += 1
 
-    for i in range(len(fireworks)):
+    i = 0
+    while i < len(fireworks):
         if fireworks[i].timer <= 0:
 
             fireworks[i].explode(particles) # spawn in the particles
@@ -56,6 +69,8 @@ while running:
             continue
             
         fireworks[i].step(dt)
+        fireworks[i].draw(screen)
+        i += 1
 
     # flip() the display to put your work on screen
     pygame.display.flip()
