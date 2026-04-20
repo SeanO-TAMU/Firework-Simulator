@@ -1,0 +1,22 @@
+import numpy as np
+import pygame
+
+class particle:
+    # have a mass, pos, velocity, color
+    def __init__(self, mass, pos, velocity, color, timer):
+        self.mass = mass
+        self.pos = np.array(pos, dtype=float)
+        self.velocity = np.array(velocity, dtype=float)
+        self.color = color
+        self.timer = timer # fade away the particle
+    
+    def step(self, dt):
+        # just do gravity for now
+        force = np.array([0, 10])
+        f = self.mass * force
+        self.velocity += dt / self.mass * f
+        self.pos += dt * self.velocity
+        self.timer -= dt
+    
+    def draw(self, surface):
+        pygame.draw.circle(surface, self.color, tuple(self.pos), 1, width=0)
