@@ -23,6 +23,7 @@ FIREWORK_COLORS = [
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
+particle_surface = pygame.Surface((1280, 720), pygame.SRCALPHA)
 clock = pygame.time.Clock()
 running = True
 
@@ -33,6 +34,7 @@ while running:
 
     # wipes away stuff from the last frame
     screen.fill("black")
+    particle_surface.fill((0, 0, 0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -54,7 +56,7 @@ while running:
             continue
         
         particles[i].step(dt) # also need to pass in the wind force
-        particles[i].draw(screen)
+        particles[i].draw(particle_surface)
         i += 1
 
     i = 0
@@ -69,9 +71,10 @@ while running:
             continue
             
         fireworks[i].step(dt)
-        fireworks[i].draw(screen)
+        fireworks[i].draw(particle_surface)
         i += 1
 
+    screen.blit(particle_surface, (0, 0))
     # flip() the display to put your work on screen
     pygame.display.flip()
 
