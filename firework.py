@@ -14,12 +14,21 @@ class firework:
         self.colors = colors
         self.timer = timer
 
-    def step(self, dt):
+    def step(self, dt, list):
         force = np.array([0, 10])
         f = self.mass * force
         self.velocity += dt / self.mass * f
         self.pos += dt * self.velocity
         self.timer -= dt
+
+        # add some particles that are opposite of the velocity
+        numParticles = random.randint(1, 3)
+        norm = np.linalg.norm(self.velocity)
+        reverseVelo = -self.velocity
+        for _ in range(numParticles):
+            spread = np.array([random.uniform(-0.6, 0.6), random.uniform(-0.6, 0.6)])
+            particle_velocity = reverseVelo + spread * 20
+            list.append(particle.particle(1, self.pos + spread * 2, particle_velocity, self.color, 0.4))
 
     def explode(self, list):
         # spawn the light particles

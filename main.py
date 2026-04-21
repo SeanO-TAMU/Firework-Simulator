@@ -70,7 +70,7 @@ while running:
 
             continue
             
-        fireworks[i].step(dt)
+        fireworks[i].step(dt, particles)
         fireworks[i].draw(particle_surface)
         i += 1
 
