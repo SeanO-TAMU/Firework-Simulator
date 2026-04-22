@@ -27,14 +27,28 @@ particle_surface = pygame.Surface((1280, 720), pygame.SRCALPHA)
 clock = pygame.time.Clock()
 running = True
 
+def draw_gradient(surface, top_color, bottom_color):
+    height = surface.get_height()
+    
+    for y in range(height):
+        # Interpolate color
+        ratio = y / height
+        r = int(top_color[0] * (1 - ratio) + bottom_color[0] * ratio)
+        g = int(top_color[1] * (1 - ratio) + bottom_color[1] * ratio)
+        b = int(top_color[2] * (1 - ratio) + bottom_color[2] * ratio)
+        
+        pygame.draw.line(surface, (r, g, b), (0, y), (surface.get_width(), y))
+
 dt = 0
 fireworks = []
 particles = []
 while running:
 
     # wipes away stuff from the last frame
-    screen.fill("black")
+    draw_gradient(screen, (0, 0, 0), (30, 0, 40))
     particle_surface.fill((0, 0, 0, 0))
+
+    pygame.draw.circle(screen, (0, 40, 0), (600, 975), 400, width=0)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -75,6 +89,12 @@ while running:
         i += 1
 
     screen.blit(particle_surface, (0, 0))
+
+    # draw green hills
+    pygame.draw.circle(screen, (0, 60, 0), (1000, 1425), 900, width=0)
+    pygame.draw.circle(screen, (0, 80, 0), (200, 1250), 700, width=0)
+    
+
     # flip() the display to put your work on screen
     pygame.display.flip()
 

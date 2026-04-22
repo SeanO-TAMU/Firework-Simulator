@@ -21,7 +21,7 @@ class firework:
         self.pos += dt * self.velocity
         self.timer -= dt
 
-        # add some particles that are opposite of the velocity
+        # add some particles that are opposite of the velocity to create a trail behind firework
         numParticles = random.randint(1, 3)
         norm = np.linalg.norm(self.velocity)
         reverseVelo = -self.velocity
