@@ -14,9 +14,9 @@ class firework:
         self.colors = colors
         self.timer = timer
 
-    def step(self, dt, list):
+    def step(self, dt, list, wind):
         force = np.array([0, 10])
-        f = self.mass * force
+        f = self.mass * force + wind
         self.velocity += dt / self.mass * f
         self.pos += dt * self.velocity
         self.timer -= dt

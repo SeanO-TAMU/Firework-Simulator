@@ -11,10 +11,10 @@ class particle:
         self.timer = timer # fade away the particle
         self.alpha = 255
     
-    def step(self, dt):
+    def step(self, dt, wind):
         # just do gravity for now
         force = np.array([0, 10])
-        f = self.mass * force
+        f = self.mass * force + wind
         self.velocity += dt / self.mass * f
         self.pos += dt * self.velocity
         self.timer -= dt

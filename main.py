@@ -4,6 +4,9 @@
 import pygame
 import particle
 import firework
+import math
+import random
+import numpy as np
 
 FIREWORK_COLORS = [
     (255, 0, 0),       # bright red
@@ -40,8 +43,10 @@ def draw_gradient(surface, top_color, bottom_color):
         pygame.draw.line(surface, (r, g, b), (0, y), (surface.get_width(), y))
 
 dt = 0
+wind = np.array([0, 0])
 fireworks = []
 particles = []
+time = 0
 while running:
 
     # wipes away stuff from the last frame
@@ -60,7 +65,15 @@ while running:
             pArray = [pos[0], pos[1]]
             fireworks.append(firework.firework(10, [pos[0], 720], [0, -100], pArray, (255, 0, 0), FIREWORK_COLORS, 10))
             
-            
+    
+    # WIND FORCE
+    time += dt
+    fx = 20.0 * math.cos(0.5 * time) + random.uniform(-0.5, 0.5)
+    fy = 20.0 * math.sin(0.5 * time) + random.uniform(-0.5, 0.5)
+
+    wind[0] = fx
+    wind[1] = fy
+
     # RENDER YOUR GAME HERE
     i = 0
     while i < len(particles):
@@ -69,7 +82,7 @@ while running:
             particles.pop()
             continue
         
-        particles[i].step(dt) # also need to pass in the wind force
+        particles[i].step(dt, wind) # also need to pass in the wind force
         particles[i].draw(particle_surface)
         i += 1
 
@@ -84,7 +97,7 @@ while running:
 
             continue
             
-        fireworks[i].step(dt, particles)
+        fireworks[i].step(dt, particles, wind)
         fireworks[i].draw(particle_surface)
         i += 1
 
