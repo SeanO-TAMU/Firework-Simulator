@@ -4,6 +4,7 @@
 import pygame
 import particle
 import firework
+import grass
 import math
 import random
 import numpy as np
@@ -47,6 +48,14 @@ wind = np.array([0, 0])
 fireworks = []
 particles = []
 time = 0
+
+blades = []
+origin = 50
+
+for i in range(10):
+    blades.append(grass.Grass(np.array([origin, 720])))
+    origin += 50
+
 while running:
 
     # wipes away stuff from the last frame
@@ -106,6 +115,9 @@ while running:
     # draw green hills
     pygame.draw.circle(screen, (0, 60, 0), (1000, 1425), 900, width=0)
     pygame.draw.circle(screen, (0, 80, 0), (200, 1250), 700, width=0)
+
+    for blade in blades:
+        blade.draw(screen)
     
 
     # flip() the display to put your work on screen
