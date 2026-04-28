@@ -43,18 +43,42 @@ def draw_gradient(surface, top_color, bottom_color):
         
         pygame.draw.line(surface, (r, g, b), (0, y), (surface.get_width(), y))
 
+cx = [200, 1000]
+cy = [1250, 1425]
+r = [700, 900]
+grassColor = [(0, 180, 0), (0, 140, 0)]
+# y = cy - math.sqrt(r*r - (x - cx)*(x - cx))
+blades = []
+origin = 50
+
+def drawGrass():
+    for x in range(1, screen.get_width(), 7):
+        height = 721
+        color = (0, 0, 0)
+
+        if x >= cx[0] - r[0] and x <= cx[0] + r[0]:
+            y = cy[0] - math.sqrt(r[0] * r[0] - (x - cx[0]) * (x - cx[0]))
+            if y < height:
+                height = y
+                color = grassColor[0]
+
+        if x >= cx[1] - r[1] and x <= cx[1] + r[1]:
+            y = cy[1] - math.sqrt(r[1] * r[1] - (x - cx[1]) * (x - cx[1]))
+            if y < height:
+                if height < 720:
+                    blades.append(grass.Grass(np.array([x, height]), color))
+                height = y
+                color = grassColor[1]
+        
+        blades.append(grass.Grass(np.array([x, height]), color))
+                
+drawGrass()
+
 dt = 0
 wind = np.array([0, 0])
 fireworks = []
 particles = []
 time = 0
-
-blades = []
-origin = 50
-
-for i in range(10):
-    blades.append(grass.Grass(np.array([origin, 720])))
-    origin += 50
 
 while running:
 
