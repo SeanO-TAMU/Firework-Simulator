@@ -47,10 +47,7 @@ cx = [200, 1000]
 cy = [1250, 1425]
 r = [700, 900]
 grassColor = [(0, 180, 0), (0, 140, 0)]
-# y = cy - math.sqrt(r*r - (x - cx)*(x - cx))
 blades = []
-origin = 50
-
 def drawGrass():
     for x in range(1, screen.get_width(), 7):
         height = 721
@@ -140,9 +137,10 @@ while running:
     pygame.draw.circle(screen, (0, 60, 0), (1000, 1425), 900, width=0)
     pygame.draw.circle(screen, (0, 80, 0), (200, 1250), 700, width=0)
 
+    # draw grass
     for blade in blades:
+        blade.step(dt, wind)
         blade.draw(screen)
-    
 
     # flip() the display to put your work on screen
     pygame.display.flip()
