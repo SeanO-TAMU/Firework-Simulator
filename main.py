@@ -98,7 +98,7 @@ while running:
     
     # WIND FORCE
     time += dt
-    fx = (6.0 * math.sin(0.6 * time) + 2.0 * math.sin(1.2 * time + 1.0))
+    fx = (6.0 * math.sin(0.3 * time) + 2.0 * math.sin(0.6 * time + 0.5))
     # fx = 20.0 * math.cos(0.5 * time) + random.uniform(-0.5, 0.5)
     fy = 20.0 * math.sin(0.5 * time) + random.uniform(-0.5, 0.5)
 

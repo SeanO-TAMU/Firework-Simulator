@@ -10,6 +10,7 @@ class Point:
         self.velocity = np.array([0.0, 0.0], dtype=float)
 
     def draw(self, surface):
+        return
         pygame.draw.circle(surface, self.color, tuple(self.pos), 1, width=0)
 
 class Grass:
@@ -19,7 +20,7 @@ class Grass:
         self.pos = pos
         self.color = color
 
-        for i in range(4):
+        for i in range(5):
             self.points.append(Point(pos.copy(), self.color))
             pos[1] -= 10
 
@@ -115,6 +116,6 @@ class Grass:
         begin = self.points[0].pos
         for i in range(1, len(self.points)):
 
-            pygame.draw.line(surface, self.color, begin, self.points[i].pos, 1)
+            pygame.draw.line(surface, self.color, begin, self.points[i].pos, 2)
             begin = self.points[i].pos
             self.points[i].draw(surface)
