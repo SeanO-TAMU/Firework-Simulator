@@ -95,7 +95,10 @@ while running:
             # render firework here
             print(pos)
             pArray = [pos[0], pos[1]]
-            fireworks.append(firework.firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), FIREWORK_COLORS, 5))
+            fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), 5))
+
+            # multiColorFirework
+            # fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), FIREWORK_COLORS, 5))
             
     
     # WIND FORCE
