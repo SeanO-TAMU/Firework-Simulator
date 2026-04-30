@@ -77,6 +77,8 @@ fireworks = []
 particles = []
 time = 0
 
+launch_angles = [[213, 670], [640, 670], [1066, 670]]
+
 while running:
 
     # wipes away stuff from the last frame
@@ -93,14 +95,13 @@ while running:
             # render firework here
             print(pos)
             pArray = [pos[0], pos[1]]
-            fireworks.append(firework.firework(10, [640, 720], [0, -100], pArray, (255, 0, 0), FIREWORK_COLORS, 6))
+            fireworks.append(firework.firework(10, launch_angles[pos[0] // 426], [0, -100], pArray, (255, 0, 0), FIREWORK_COLORS, 6))
             
     
     # WIND FORCE
     time += dt
     fx = (6.0 * math.sin(0.3 * time) + 2.0 * math.sin(0.6 * time + 0.5))
-    # fx = 20.0 * math.cos(0.5 * time) + random.uniform(-0.5, 0.5)
-    fy = 20.0 * math.sin(0.5 * time) + random.uniform(-0.5, 0.5)
+    # fy = 20.0 * math.sin(0.5 * time) + random.uniform(-0.5, 0.5)
 
     wind[0] = fx
     wind[1] = 0.0
