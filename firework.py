@@ -41,7 +41,7 @@ class firework:
             vy = math.sin(angle)
             velocity = np.array([vx, vy]) * speed
 
-            list.append(particle.particle(1, self.pos, velocity, self.colors[int(random.random() * len(self.colors))], 5))
+            list.append(particle.particle(0.5, self.pos, velocity, self.colors[int(random.random() * len(self.colors))], 5))
 
 
         

@@ -6,7 +6,7 @@ class Point:
     def __init__(self, pos, color):
         self.pos = pos
         self.color = color
-        self.mass = 0.2
+        self.mass = 1
         self.velocity = np.array([0.0, 0.0], dtype=float)
 
     def draw(self, surface):
@@ -40,7 +40,9 @@ class Grass:
             self.points[i].velocity += dt / self.points[i].mass * f
             self.points[i].pos += dt * self.points[i].velocity
 
-        # apply constraint
+        # Apply constraints
+
+        # distance constraints
         for i in range(1, len(self.points)):
             delta = self.points[i].pos - self.points[i - 1].pos
             length = np.linalg.norm(delta)
@@ -60,6 +62,46 @@ class Grass:
             self.points[i - 1].pos += lamb * w1 * g1
             self.points[i].pos += lamb * w2 * g2
 
+        # angle constraint
+        max_angle = np.radians(40)
+        min_dot = np.cos(max_angle)
+        for i in range(1, len(self.points)):
+
+            d1 = 0
+            if i == 1:
+                d1 = [0.0, -1.0]
+            else:
+                d1 = self.points[i - 1].pos - self.points[i - 2].pos
+            d2 = self.points[i].pos - self.points[i - 1].pos
+
+            len1 = np.linalg.norm(d1)
+            len2 = np.linalg.norm(d2)
+
+            unit1 = d1/len1
+            unit2 = d2/len2
+
+            dot = np.dot(unit1, unit2)
+
+            if dot < min_dot:
+
+                # figure out rotation direction (left/right bend)
+                cross = unit1[0]*unit2[1] - unit1[1]*unit2[0]
+                sign = np.sign(cross) if cross != 0 else 1.0
+
+                # rotate n1 by max_angle
+                cos_t = np.cos(max_angle)
+                sin_t = np.sin(max_angle)
+
+                rotated = np.array([
+                    cos_t * unit1[0] - sign * sin_t * unit1[1],
+                    sign * sin_t * unit1[0] + cos_t * unit1[1]
+                ])
+
+                # enforce new direction
+                new_pos = self.points[i - 1].pos + rotated * len2
+
+                # move ONLY p2 (simplest + stable)
+                self.points[i].pos = new_pos
 
         # project back using constraint
         for i in range(len(self.points)):

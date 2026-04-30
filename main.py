@@ -49,7 +49,7 @@ r = [700, 900]
 grassColor = [(0, 180, 0), (0, 140, 0)]
 blades = []
 def drawGrass():
-    for x in range(1, screen.get_width(), 7):
+    for x in range(1, screen.get_width(), 15):
         height = 721
         color = (0, 0, 0)
 
@@ -98,11 +98,12 @@ while running:
     
     # WIND FORCE
     time += dt
-    fx = 20.0 * math.cos(0.5 * time) + random.uniform(-0.5, 0.5)
+    fx = (6.0 * math.sin(0.6 * time) + 2.0 * math.sin(1.2 * time + 1.0))
+    # fx = 20.0 * math.cos(0.5 * time) + random.uniform(-0.5, 0.5)
     fy = 20.0 * math.sin(0.5 * time) + random.uniform(-0.5, 0.5)
 
     wind[0] = fx
-    wind[1] = fy
+    wind[1] = 0.0
 
     # RENDER YOUR GAME HERE
     i = 0
