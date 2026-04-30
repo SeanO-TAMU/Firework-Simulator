@@ -24,6 +24,9 @@ FIREWORK_COLORS = [
     (255, 0, 150),     # pink
 ]
 
+fireworkType = 0
+NUM_FIREWORKS = 2
+
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -90,15 +93,22 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_t:
+                fireworkType += 1
+                fireworkType %= NUM_FIREWORKS
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             # render firework here
             print(pos)
             pArray = [pos[0], pos[1]]
-            fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), 5))
-
-            # multiColorFirework
-            # fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), FIREWORK_COLORS, 5))
+            
+            if fireworkType == 0:
+                # single color firework
+                fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), 5))
+            else:
+                # multi-color firework
+                fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), FIREWORK_COLORS, 5))
             
     
     # WIND FORCE
