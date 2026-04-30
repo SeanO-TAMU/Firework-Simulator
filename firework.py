@@ -47,4 +47,4 @@ class firework:
         
 
     def draw(self, surface):
-        pygame.draw.circle(surface, self.color, tuple(self.pos), 5, width=0)
+        pygame.draw.circle(surface, self.color, tuple(self.pos), 4, width=0)
