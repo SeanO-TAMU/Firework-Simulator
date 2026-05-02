@@ -61,6 +61,12 @@ def draw_gradient(surface, top_color, bottom_color):
         
         pygame.draw.line(surface, (r, g, b), (0, y), (surface.get_width(), y))
 
+def draw_crescent(surface, pos, radius, offset, color):
+    moon_surf = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
+    pygame.draw.circle(moon_surf, color, (radius, radius), radius)
+    pygame.draw.circle(moon_surf, (0, 0, 0, 0), (radius + offset, radius), radius)
+    surface.blit(moon_surf, (pos[0] - radius, pos[1] - radius))
+
 cx = [200, 1000]
 cy = [1250, 1425]
 r = [700, 900]
@@ -101,6 +107,7 @@ while running:
 
     # wipes away stuff from the last frame
     draw_gradient(screen, (0, 0, 0), (30, 0, 40))
+    draw_crescent(screen, (1000, 150), 60, 25, (255, 255, 200))
     particle_surface.fill((0, 0, 0, 0))
 
     pygame.draw.circle(screen, (0, 40, 0), (600, 975), 400, width=0)
