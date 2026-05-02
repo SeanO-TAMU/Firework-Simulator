@@ -24,8 +24,23 @@ FIREWORK_COLORS = [
     (255, 0, 150),     # pink
 ]
 
+FIREWORK_COLORS_TWO = [
+    [(255, 0, 0), (255, 255, 255), (0, 100, 255)],
+    [(255, 80, 0), (255, 200, 0), (255, 0, 0)],
+    [(255, 150, 0), (255, 80, 0), (200, 0, 255)],
+    [(255, 255, 0), (255, 255, 200), (255, 200, 0)],
+    [(200, 255, 0), (0, 255, 100), (255, 255, 0)],
+    [(0, 255, 0), (173, 255, 47), (255, 255, 200)],
+    [(0, 255, 150), (0, 100, 200), (0, 0, 80)],
+    [(0, 200, 255), (200, 255, 255), (0, 100, 255)],
+    [(0, 100, 255), (0, 200, 255), (255, 255, 255)],
+    [(100, 0, 255), (200, 0, 255), (0, 200, 255)],
+    [(200, 0, 255), (255, 0, 150), (100, 0, 255)],
+    [(255, 0, 150), (255, 100, 200), (255, 255, 255)]
+]
+
 fireworkType = 0
-NUM_FIREWORKS = 2
+NUM_FIREWORKS = 4
 
 # pygame setup
 pygame.init()
@@ -102,13 +117,18 @@ while running:
             # render firework here
             print(pos)
             pArray = [pos[0], pos[1]]
-            
+            f = random.randint(0, len(FIREWORK_COLORS) - 1)
             if fireworkType == 0:
                 # single color firework
-                fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), 5))
-            else:
+                fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], 5))
+            elif fireworkType == 1:
                 # multi-color firework
-                fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  random.choice(FIREWORK_COLORS), FIREWORK_COLORS, 5))
+                fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS, 5))
+            elif fireworkType == 2:
+                fireworks.append(firework.ringFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5))
+            else:
+                fireworks.append(firework.multiStageFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5, fireworks))
+
             
     
     # WIND FORCE

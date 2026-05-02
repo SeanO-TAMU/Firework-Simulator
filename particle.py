@@ -12,7 +12,6 @@ class particle:
         self.alpha = 255
     
     def step(self, dt, wind):
-        # just do gravity for now
         force = np.array([0, 10])
         f = self.mass * force + wind
         self.velocity += dt / self.mass * f
