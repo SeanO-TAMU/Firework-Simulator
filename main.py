@@ -40,7 +40,7 @@ FIREWORK_COLORS_TWO = [
 ]
 
 fireworkType = 0
-NUM_FIREWORKS = 4
+NUM_FIREWORKS = 5
 
 # pygame setup
 pygame.init()
@@ -115,7 +115,6 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             # render firework here
-            print(pos)
             pArray = [pos[0], pos[1]]
             f = random.randint(0, len(FIREWORK_COLORS) - 1)
             if fireworkType == 0:
@@ -125,11 +124,26 @@ while running:
                 # multi-color firework
                 fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS, 5))
             elif fireworkType == 2:
+                # ring firework
                 fireworks.append(firework.ringFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[11], FIREWORK_COLORS_TWO[11], 5))
-            else:
+            elif fireworkType == 3:
+                # multi-stage firework
                 fireworks.append(firework.multiStageFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5, fireworks))
-
-            
+            else:
+                num = random.randint(0, NUM_FIREWORKS - 2)
+                if num == 0:
+                    # single color firework
+                    fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], 5))
+                elif num == 1:
+                    # multi-color firework
+                    fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS, 5))
+                elif num == 2:
+                    # ring firework
+                    fireworks.append(firework.ringFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5))
+                elif num == 3:
+                    # multi-stage firework
+                    fireworks.append(firework.multiStageFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5, fireworks))
+                
     
     # WIND FORCE
     time += dt
