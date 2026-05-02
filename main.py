@@ -30,13 +30,13 @@ FIREWORK_COLORS_TWO = [
     [(255, 150, 0), (255, 80, 0), (200, 0, 255)],
     [(255, 255, 0), (255, 255, 200), (255, 200, 0)],
     [(200, 255, 0), (0, 255, 100), (255, 255, 0)],
-    [(0, 255, 0), (173, 255, 47), (255, 255, 200)],
-    [(0, 255, 150), (0, 100, 200), (0, 0, 80)],
+    [(0, 255, 0), (173, 255, 47), (255, 220, 120)],
+    [(0, 255, 150), (0, 100, 200), (0, 20, 150)],
     [(0, 200, 255), (200, 255, 255), (0, 100, 255)],
-    [(0, 100, 255), (0, 200, 255), (255, 255, 255)],
+    [(0, 100, 255), (0, 255, 200), (200, 0, 255)],
     [(100, 0, 255), (200, 0, 255), (0, 200, 255)],
     [(200, 0, 255), (255, 0, 150), (100, 0, 255)],
-    [(255, 0, 150), (255, 100, 200), (255, 255, 255)]
+    [(255, 0, 150), (255, 110, 200), (255, 255, 255)]
 ]
 
 fireworkType = 0
@@ -125,7 +125,7 @@ while running:
                 # multi-color firework
                 fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS, 5))
             elif fireworkType == 2:
-                fireworks.append(firework.ringFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5))
+                fireworks.append(firework.ringFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[11], FIREWORK_COLORS_TWO[11], 5))
             else:
                 fireworks.append(firework.multiStageFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5, fireworks))
 
