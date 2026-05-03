@@ -199,7 +199,7 @@ class heartFirework(Firework):
 
             y = -y
 
-            scale = 2.0
+            scale = 1.5
             num = random.random() * 0.5
             velocity = np.array([x, y]) * (scale + num)
 
@@ -221,7 +221,7 @@ class spiralFirework(Firework):
         for i in range(200):
             t = i * 0.2
 
-            radius = 5 * t
+            radius = 5 * t + random.uniform(-1, 1)
             
             x = radius * math.cos(t)
             y = radius * math.sin(t)
