@@ -41,6 +41,7 @@ FIREWORK_COLORS_TWO = [
 
 fireworkType = 0
 NUM_FIREWORKS = 8
+pause = False
 
 # pygame setup
 pygame.init()
@@ -143,6 +144,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                pause = not pause
             if event.key == pygame.K_t:
                 fireworkType += 1
                 fireworkType %= NUM_FIREWORKS
@@ -162,6 +165,7 @@ while running:
                 fireworkType = 6
             elif event.key == pygame.K_8:
                 fireworkType = 7
+        
             
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
@@ -174,7 +178,8 @@ while running:
                     
     
     # WIND FORCE
-    time += dt
+    if not pause:
+        time += dt
     fx = (6.0 * math.sin(0.3 * time) + 2.0 * math.sin(0.6 * time + 0.5))
     # fy = 20.0 * math.sin(0.5 * time) + random.uniform(-0.5, 0.5)
 
@@ -188,8 +193,9 @@ while running:
             particles[i] = particles[-1]
             particles.pop()
             continue
-        
-        particles[i].step(dt, wind) # also need to pass in the wind force
+            
+        if not pause:
+            particles[i].step(dt, wind) # also need to pass in the wind force
         particles[i].draw(particle_surface)
         i += 1
 
@@ -203,8 +209,9 @@ while running:
             fireworks.pop()
 
             continue
-            
-        fireworks[i].step(dt, particles, wind)
+        
+        if not pause:
+            fireworks[i].step(dt, particles, wind)
         fireworks[i].draw(particle_surface)
         i += 1
 
@@ -217,7 +224,8 @@ while running:
 
     # draw grass
     for blade in blades:
-        blade.step(dt, wind)
+        if not pause:
+            blade.step(dt, wind)
         blade.draw(screen)
 
     # flip() the display to put your work on screen
