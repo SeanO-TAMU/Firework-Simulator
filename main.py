@@ -40,7 +40,7 @@ FIREWORK_COLORS_TWO = [
 ]
 
 fireworkType = 0
-NUM_FIREWORKS = 5
+NUM_FIREWORKS = 8
 
 # pygame setup
 pygame.init()
@@ -64,7 +64,9 @@ def draw_gradient(surface, top_color, bottom_color):
 def draw_crescent(surface, pos, radius, offset, color):
     moon_surf = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
     pygame.draw.circle(moon_surf, color, (radius, radius), radius)
+    pygame.draw.circle(moon_surf, (255,255,200,30), pos, radius+20)
     pygame.draw.circle(moon_surf, (0, 0, 0, 0), (radius + offset, radius), radius)
+    
     surface.blit(moon_surf, (pos[0] - radius, pos[1] - radius))
 
 cx = [200, 1000]
@@ -103,6 +105,31 @@ time = 0
 
 launch_angles = [[320, 670], [960, 670]]
 
+def shootFireworks(num, pos):
+    pArray = [pos[0], pos[1]]
+    f = random.randint(0, len(FIREWORK_COLORS) - 1)
+    if 0 == num:
+        # single color firework
+        fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], 5))
+    elif 1 == num:
+        # multi-color firework
+        fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS, 5))
+    elif 2 == num:
+        # ring firework
+        fireworks.append(firework.ringFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5))
+    elif 3 == num:
+        # multi-stage firework
+        fireworks.append(firework.multiStageFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5, fireworks))
+    elif 4 == num:
+        # heart firework
+        fireworks.append(firework.heartFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], 5))
+    elif 5 == num:
+        # heart firework
+        fireworks.append(firework.spiralFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], 5))
+    elif 6 == num:
+        # heart firework
+        fireworks.append(firework.roseFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], 5))
+
 while running:
 
     # wipes away stuff from the last frame
@@ -119,38 +146,32 @@ while running:
             if event.key == pygame.K_t:
                 fireworkType += 1
                 fireworkType %= NUM_FIREWORKS
+            elif event.key == pygame.K_1:
+                fireworkType = 0
+            elif event.key == pygame.K_2:
+                fireworkType = 1
+            elif event.key == pygame.K_3:
+                fireworkType = 2
+            elif event.key == pygame.K_4:
+                fireworkType = 3
+            elif event.key == pygame.K_5:
+                fireworkType = 4
+            elif event.key == pygame.K_6:
+                fireworkType = 5
+            elif event.key == pygame.K_7:
+                fireworkType = 6
+            elif event.key == pygame.K_8:
+                fireworkType = 7
+            
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             # render firework here
-            pArray = [pos[0], pos[1]]
-            f = random.randint(0, len(FIREWORK_COLORS) - 1)
-            if fireworkType == 0:
-                # single color firework
-                fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], 5))
-            elif fireworkType == 1:
-                # multi-color firework
-                fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS, 5))
-            elif fireworkType == 2:
-                # ring firework
-                fireworks.append(firework.ringFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[11], FIREWORK_COLORS_TWO[11], 5))
-            elif fireworkType == 3:
-                # multi-stage firework
-                fireworks.append(firework.multiStageFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5, fireworks))
+            if fireworkType < 7:
+                shootFireworks(fireworkType, pos)
             else:
                 num = random.randint(0, NUM_FIREWORKS - 2)
-                if num == 0:
-                    # single color firework
-                    fireworks.append(firework.Firework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], 5))
-                elif num == 1:
-                    # multi-color firework
-                    fireworks.append(firework.multiColorFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS, 5))
-                elif num == 2:
-                    # ring firework
-                    fireworks.append(firework.ringFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5))
-                elif num == 3:
-                    # multi-stage firework
-                    fireworks.append(firework.multiStageFirework(10, launch_angles[pos[0] // 640], [0, -100], pArray,  FIREWORK_COLORS[f], FIREWORK_COLORS_TWO[f], 5, fireworks))
-                
+                shootFireworks(num, pos)
+                    
     
     # WIND FORCE
     time += dt
@@ -188,6 +209,7 @@ while running:
         i += 1
 
     screen.blit(particle_surface, (0, 0))
+    
 
     # draw green hills
     pygame.draw.circle(screen, (0, 60, 0), (1000, 1425), 900, width=0)

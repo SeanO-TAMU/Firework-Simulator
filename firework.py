@@ -129,7 +129,7 @@ class multiStageFirework(Firework):
     
     def explode(self, list):
         # spawn the light particles
-        for _ in range(20):
+        for _ in range(15):
             angle = random.uniform(0, 2 * math.pi)
             speed = random.uniform(5, 20)
             vx = math.cos(angle)
@@ -187,3 +187,81 @@ class particleFirework(Firework):
 
     def draw(self, surface):
         pygame.draw.circle(surface, self.color, tuple(self.pos), 1, width=0)
+
+class heartFirework(Firework):
+    def explode(self, list):
+        # spawn the light particles
+        for i in range(200):
+            t = (i / 200) * 2 * math.pi
+
+            x = 16 * (math.sin(t) ** 3)
+            y = (13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t))
+
+            y = -y
+
+            scale = 2.0
+            num = random.random() * 0.5
+            velocity = np.array([x, y]) * (scale + num)
+
+            color = self.color
+            if random.random() >= 0.5:
+                 color = vary_color(color, 60)
+            
+            r = random.random()
+            if r < 0.25:
+                color = brighten(color)
+            elif r > 0.75:
+                color = darken(color)
+
+            list.append(particle.particle(0.5, self.pos, velocity, color, 4))
+
+class spiralFirework(Firework):
+    def explode(self, list):
+        # spawn the light particles
+        for i in range(200):
+            t = i * 0.2
+
+            radius = 5 * t
+            
+            x = radius * math.cos(t)
+            y = radius * math.sin(t)
+
+            velocity = np.array([x, y]) * 0.1
+            velocity[1] -= 10
+
+            ratio = i / 200
+
+            color = (
+                int(self.color[0] * (1 - ratio) + 255 * ratio),
+                int(self.color[1] * (1 - ratio)),
+                int(self.color[2] * (1 - ratio))
+            )
+
+            list.append(particle.particle(0.5, self.pos, velocity, color, 4))
+
+class roseFirework(Firework):
+    def explode(self, list):
+        k = 4  # number of petals
+        k = random.randint(4, 7)
+
+        for i in range(300):
+            theta = (i / 300) * 2 * math.pi
+
+            r = 20 * math.sin(k * theta)
+
+            x = r * math.cos(theta)
+            y = r * math.sin(theta)
+
+            y = -y
+
+            velocity = np.array([x, y])
+            xRand = random.random() 
+            yRand = random.random()
+
+            velocity += np.array([xRand, yRand])
+
+            color = self.color
+            if random.random() > 0.5:
+                color = vary_color(color, 60)
+
+            list.append(particle.particle(0.6, self.pos, velocity, color, 5))
