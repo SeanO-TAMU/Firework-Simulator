@@ -28,7 +28,7 @@ class Firework:
     def step(self, dt, list, wind):
         force = np.array([0, 10])
         # pdcontrol = ks(dist) - kd(Vel)
-        fPD = 5.0 * (self.target - self.pos) - 10.0 * self.velocity
+        fPD = 5.0 * (self.target - self.pos) - 10 * self.velocity
         f = self.mass * force + wind + fPD
         self.velocity += dt / self.mass * f
         self.pos += dt * self.velocity
